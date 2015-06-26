@@ -3,6 +3,7 @@ GO
 SET ANSI_NULLS ON
 GO
 
+
 CREATE PROC [dbo].[usp_eleot_report_get_values]
 @institution_id INT,
 @user_id INT,
@@ -53,7 +54,8 @@ select  a.question_id, a.observation_id, a.value, a.note
 from    observations o
 join answers a on a.observation_id = o.id
 where   1=1 
-and institution_id=@institution_id '
+and institution_id=@institution_id 
+AND ISNULL(o.status,''Submitted'') = ''Submitted'' '
 
 IF (@user_id IS NOT NULL)
 	BEGIN
@@ -103,6 +105,7 @@ EXEC sp_executesql @SQL , N'
 @class_segment=@class_segment,
 @observation_start_on=@observation_start_on,
 @observation_end_on=@observation_end_on
+
 
 
 GO
